@@ -1,0 +1,25 @@
+﻿@using System.Linq.Expressions;
+@typeparam TValue
+
+<AntDesign.Select DataSource="@Options"
+                  ValueName="@(nameof(CustomSelectOption<TValue>.Value))"
+                  LabelName="@(nameof(CustomSelectOption<TValue>.Label))"
+                  Value="@Value"
+                  ValueChanged="@ValueChanged"
+                  ValueExpression="@ValueExpression"
+                  AllowClear="@true">
+</AntDesign.Select>
+
+@code {
+    [Parameter]
+    public TValue? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<TValue?> ValueChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<TValue?>>? ValueExpression { get; set; }
+
+    [Parameter]
+    public IEnumerable<CustomSelectOption<TValue?>>? Options { get; set; }
+}

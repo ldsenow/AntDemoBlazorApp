@@ -1,0 +1,40 @@
+﻿@page "/"
+
+@using AntDemoBlazorApp.Client.Components
+@using System.ComponentModel.DataAnnotations;
+
+<h1>Hello, world!</h1>
+
+<AntDesign.Form Model="@Model"
+                ValidateOnChange="@true"
+                OnFinish="@(()=>{ Console.WriteLine($"Selected User: {Model.User?.Name}"); })">
+    <FormCustomSelect Label="User" Options="@UserOptions" @bind-Value="@Model.User" />
+    <AntDesign.Button HtmlType="submit">Submit</AntDesign.Button>
+</AntDesign.Form>
+
+@code {
+
+    ViewModel Model = new();
+
+    IEnumerable<CustomSelectOption<User?>> UserOptions = new[] {
+        new CustomSelectOption<User?>{ Value = new User{ Id = 1, Name ="Jame Lee" }, Label = "James Lee" },
+        new CustomSelectOption<User?>{ Value =  new User{ Id = 2, Name ="Tina Willy" }, Label = "Tina Willy" },
+    };
+
+    public class ViewModel
+    {
+        [Required]
+        public User? User { get; set; }
+    }
+
+    public class User
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public override bool Equals(object? obj) => obj is User user && user.Id == Id;
+
+        public override int GetHashCode() => Id;
+    }
+}
